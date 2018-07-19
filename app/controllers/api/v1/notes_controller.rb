@@ -1,9 +1,14 @@
-class Api::V1::NotesController < ApplicationController
+class Api::V1::NotesController < Api::V1::ApplicationController
 
   def index
-    @notes = Note.all
+    # byebug
+    @user_notes = Note.all.select do |note|
+      note.user_id == note_params[:user_id].to_i
+    end
 
-    render json: {users: @notes}
+    # byebug
+
+    render json: {notes: @user_notes}
   end
 
   def show
@@ -13,6 +18,8 @@ class Api::V1::NotesController < ApplicationController
   end
 
   def create
+
+    byebug
     @note = Note.create(note_params)
 
     render json: {note: @note}
@@ -28,7 +35,7 @@ class Api::V1::NotesController < ApplicationController
   private
 
   def note_params
-     params.require(:note).permit(:title, :topic, :professor, :location, :user_id, :full_text, :specialLines => {})
+     params.permit(:title, :topic, :professor, :location, :user_id, :full_text, :specialLines => {})
   end
 
 end

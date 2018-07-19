@@ -1,4 +1,4 @@
-class Api::V1::ListsController < ApplicationController
+class Api::V1::ListsController < Api::V1::ApplicationController
   def index
     @lists = List.all
 
@@ -29,5 +29,5 @@ class Api::V1::ListsController < ApplicationController
   def list_params
      params.require(:list).permit(:keyword, :note_id)
   end
-  
+
 end
